@@ -1,0 +1,124 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+#content {
+  position: relative;
+  margin: 0 auto;
+  margin-top: 100px;
+  width: 65%;
+  opacity: 0.8;
+  padding: 0 20px 10px 20px;
+  background: white;
+  border: 2px solid #999;
+  border-radius: 5px;
+  box-shadow: 0 0 10px #8B8B8B;
+  -webkit-font-smoothing: antialiased;
+  font: 14px/1.5 Tahoma, Arial;
+  -webkit-transition: all .6s ease-out;
+  -moz-transition: all .6s ease;
+  -o-transition: all .6s ease;
+  transition: all .6s ease;
+}
+#content h1 {
+  text-transform: uppercase;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #CCC;
+  color: black;
+  cursor: default;
+  font-size: 2em;
+  font-family: "Rosario", "Xin Gothic", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+#content p {
+  padding: 10px;
+}
+#screen {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+#wrap {
+  height: 100%;
+  width: 100%;
+}
+#community {
+  width: 200px;
+  height: 40px;
+  padding: 0px 20px;
+}
+#community a {
+  display: block;
+  width: 32px;
+  height: 32px;
+  float: left;
+  margin-right: 10px;
+  background: url(resource/icon.png) no-repeat;
+  background: url(resource/icon_32.png) no-repeat\9;
+  background-size: auto 32px;
+}
+#community .weibo {
+  background-position:-32px 0px;
+}
+#community .github {
+  background-position:-65px 0px;
+}
+.close {
+  position: absolute;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  -webkit-transition: all .6s ease-out;
+  -moz-transition: all .6s ease;
+  -o-transition: all .6s ease;
+  transition: all .6s ease;
+}
+.close::before {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.close::before, .close::after {
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  top: 50%;
+  left: 0;
+  margin-top: -1px;
+  background: #cacaca;
+}
+.close::after {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+@media screen and (max-width: 650px) {
+  #content {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    padding: 10px 0 0 0;
+  }
+  #content h1 {
+    margin: 0 5px 20px 5px;
+  }
+  #community {
+    margin-top: 10px;
+  }
+  .close {
+    display: none;
+  }
+}
