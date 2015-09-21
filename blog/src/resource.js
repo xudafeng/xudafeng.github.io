@@ -57,5 +57,11 @@
             });
         }
     }
+
+    // hack
+    Q.forEach(function(i) {
+      var name = i.src.split('/')[2];
+      i.src = _images[name];
+    });
     global.Resource = Q;
 })(window);
