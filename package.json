@@ -10,11 +10,7 @@
     "url": "git://github.com/xudafeng/xudafeng.github.com.git"
   },
   "devDependencies": {
-    "pm2": "~0.15.10",
     "startserver": "~1.2.2"
   },
-  "author": "xudafeng",
-  "email": "xudafeng@126.com",
-  "blog": "http://xdf.me",
   "license": "MIT"
 }
