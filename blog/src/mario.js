@@ -6,6 +6,14 @@
     var MARIOHEIGHT = 37;
     var g = 9.8;
     var CELL = CONFIG['CELL'];
+
+    function isWallTile(value){
+        return value && (value.indexOf('pipe') === 0 || value.indexOf('block') === 0);
+    }
+
+    function isGroundTile(value){
+        return isWallTile(value) || (value && value.indexOf('meadow') === 0);
+    }
     function Mario(cfg){
         var that = this;
         cfg.width = cfg.width||MARIOWIDTH;
@@ -20,8 +28,11 @@
     var proto = {
         forward:function(){
             var that = this;
-            that.hitDetector('right');
-            that.x += that.speedX;
+            var nextX = that.x + that.speedX;
+            if(that.hitDetector('right', nextX)){
+                return;
+            }
+            that.x = nextX;
             if(that.x>= CONFIG['SCREENWIDTH']){
                 that.x =-10;
             }
@@ -33,8 +44,11 @@
         },
         backforward:function(){
             var that = this;
-            that.hitDetector('left');
-            that.x -= that.speedX;
+            var nextX = that.x - that.speedX;
+            if(that.hitDetector('left', nextX)){
+                return;
+            }
+            that.x = nextX;
             if(that.x<= 0){
                 that.x = CONFIG['SCREENWIDTH'];
             }
@@ -72,6 +86,9 @@
                 }else{
                     that.y += 1/2 * g;
                     t++;
+                    if(that.y>CONFIG['SCREENHEIGHT']){
+                        that.respawn();
+                    }
                 }
             });
         },
@@ -81,27 +98,42 @@
                 action();
             });
         },
-        hitDetector:function(type){
+        respawn:function(){
+            var that = this;
+            that.remove('drop');
+            that.remove('jump');
+            that.x = 0;
+            that.y = 0;
+            that.drop();
+        },
+        hitDetector:function(type,nextX){
             var that = this;
             if(type == 'down'){
                 that.cx = Math.round(that.x/CELL);
                 that.cy = Math.round((that.y+g/2+MARIOHEIGHT)/CELL);
-                if(that.matrix[that.cy][that.cx] =='meadow00'||that.matrix[that.cy][that.cx] =='meadow01'||that.matrix[that.cy][that.cx] =='meadow02'||that.matrix[that.cy][that.cx] =='meadow03'||that.matrix[that.cy][that.cx] =='meadow04'||that.matrix[that.cy][that.cx] =='meadow05'||that.matrix[that.cy][that.cx] =='block00'){
+                var bottomCell = that.matrix[that.cy] && that.matrix[that.cy][that.cx];
+                if(isGroundTile(bottomCell)){
                     that.y= that.cy*CELL -MARIOHEIGHT ;
                     return true;
                 }
             }else if(type=='up'){
                 return false;
             }else if(type=='left'||type=='right'){
-                that.cx = Math.round(that.x/CELL);
-                that.cy = Math.round((that.y+MARIOHEIGHT)/CELL);
-                if(!that.matrix[that.cy][that.cx]){
-                    that.drop();
-                }else{
-                    return false;
+                var targetX = nextX;
+                var cx = Math.round(targetX/CELL);
+                var cyBottom = Math.round((that.y+MARIOHEIGHT-1)/CELL);
+                var cyTop = Math.round(that.y/CELL);
+                var bottomCell = that.matrix[cyBottom] && that.matrix[cyBottom][cx];
+                var topCell = that.matrix[cyTop] && that.matrix[cyTop][cx];
+                if(isWallTile(bottomCell) || isWallTile(topCell)){
+                    return true;
                 }
+                if(!that.matrix[cyBottom] || !that.matrix[cyBottom][cx]){
+                    that.drop();
+                }
+                return false;
             }else{
-            
+
             }
         }
     };
