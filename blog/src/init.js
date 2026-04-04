@@ -85,7 +85,9 @@
         },
         loop:true,
         image:r.image,
-        matrix:that.map.matrix
+        matrix:that.map.matrix,
+        screen:that.screen,
+        resource:resource
       });
       Keyboard.run(function () {
         Keyboard.simulate();
